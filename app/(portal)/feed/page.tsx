@@ -19,8 +19,8 @@ export default async function FeedPage() {
       id,
       content,
       created_at,
-      profile_id,
-      profiles (
+      author_id,
+      profiles:author_id (
         full_name,
         avatar_url
       )

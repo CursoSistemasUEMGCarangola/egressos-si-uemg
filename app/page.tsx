@@ -18,8 +18,11 @@ export default async function Home() {
       id,
       content,
       created_at,
-      profile_id,
-      profiles (
+      id,
+      content,
+      created_at,
+      author_id,
+      profiles:author_id (
         full_name,
         avatar_url
       )

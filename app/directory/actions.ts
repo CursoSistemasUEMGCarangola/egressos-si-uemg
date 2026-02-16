@@ -24,9 +24,7 @@ export async function searchProfiles(query: string = '') {
         start_date
       ),
       academic_records (
-        status,
-        course_name,
-        institution_name
+        status
       )
     `)
         .order('full_name', { ascending: true })
@@ -39,7 +37,7 @@ export async function searchProfiles(query: string = '') {
     const { data, error } = await queryBuilder
 
     if (error) {
-        console.error('Error searching profiles:', error)
+        console.error('Error searching profiles:', JSON.stringify(error, null, 2))
         return { error: 'Erro ao buscar perfis' }
     }
 

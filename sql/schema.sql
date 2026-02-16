@@ -41,6 +41,9 @@ CREATE TABLE public.opportunities (
   type text NOT NULL CHECK (type = ANY (ARRAY['estagio'::text, 'emprego'::text, 'trainee'::text, 'freelance'::text, 'projeto_pesquisa'::text])),
   status text DEFAULT 'aberta'::text CHECK (status = ANY (ARRAY['aberta'::text, 'preenchida'::text, 'cancelada'::text])),
   created_at timestamp with time zone DEFAULT now(),
+  company text,
+  location text,
+  work_mode text CHECK (work_mode = ANY (ARRAY['presencial'::text, 'remoto'::text, 'hibrido'::text])),
   CONSTRAINT opportunities_pkey PRIMARY KEY (id),
   CONSTRAINT opportunities_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.profiles(id)
 );

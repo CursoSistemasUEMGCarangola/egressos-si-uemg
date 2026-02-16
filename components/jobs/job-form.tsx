@@ -30,7 +30,13 @@ export function JobForm({ onSuccess }: JobFormProps) {
     const form = useForm<JobFormData>({
         resolver: zodResolver(jobSchema),
         defaultValues: {
-            type: "presencial",
+            title: "",
+            company: "",
+            type: "estagio",
+            workMode: "presencial",
+            location: "",
+            applicationUrl: "",
+            description: "",
         },
     })
 
@@ -79,7 +85,7 @@ export function JobForm({ onSuccess }: JobFormProps) {
                     />
                     <FormField
                         control={form.control}
-                        name="type"
+                        name="workMode"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Modelo</FormLabel>
@@ -100,6 +106,30 @@ export function JobForm({ onSuccess }: JobFormProps) {
                         )}
                     />
                 </div>
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tipo de Vaga</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecione o tipo" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="estagio">Estágio</SelectItem>
+                                    <SelectItem value="emprego">Emprego</SelectItem>
+                                    <SelectItem value="trainee">Trainee</SelectItem>
+                                    <SelectItem value="freelance">Freelance</SelectItem>
+                                    <SelectItem value="projeto_pesquisa">Projeto de Pesquisa</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <FormField
                     control={form.control}
                     name="location"

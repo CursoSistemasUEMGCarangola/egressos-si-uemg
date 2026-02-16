@@ -4,8 +4,9 @@ export type Job = {
     company: string
     location: string
     description: string
-    application_url: string
-    type: "remoto" | "presencial" | "hibrido"
+    link_url: string
+    type: "estagio" | "emprego" | "trainee" | "freelance" | "projeto_pesquisa"
+    work_mode: "presencial" | "remoto" | "hibrido"
     created_at: string
-    profile_id: string
+    author_id: string
 }

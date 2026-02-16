@@ -14,7 +14,7 @@ export default async function JobsPage() {
 
     // Fetch jobs
     const { data: jobs } = await supabase
-        .from('jobs')
+        .from('opportunities')
         .select('*')
         .order('created_at', { ascending: false })
 

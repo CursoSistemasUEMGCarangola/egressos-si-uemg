@@ -10,6 +10,7 @@ export async function middleware(request: NextRequest) {
     const isPublicRoute =
         path === '/' ||
         path.startsWith('/login') ||
+        path.startsWith('/signup') ||
         path.startsWith('/auth') ||
         path.startsWith('/recover') ||
         path.startsWith('/reset')
@@ -21,16 +22,8 @@ export async function middleware(request: NextRequest) {
 
     // If user IS logged in and tries to access login
     if (user && path === '/login') {
-        // Redirect to dashboard (default student area for now, or check role later)
-        // Assuming /aluno is the student area based on roadmap "aluno loga e..."
-        // Validating route: Roadmap says "Fase 1: Identidade... Onboarding".
-        // I will redirect to '/aluno' or '/dashboard'?
-        // DNA says: /app/(portal): Área do Aluno/Egresso.
-        // I'll assume '/dashboard' or '/feed' is the landing for logged users. 
-        // I'll redirect to '/' for now which is public but shows feed for logged in?
-        // "Fase 2: Feed da Landing Page... Implementar política RLS para permitir leitura anônima na Home."
-        // So '/' is for everyone.
-        return NextResponse.redirect(new URL('/', request.url))
+        // Redirect to dashboard/feed
+        return NextResponse.redirect(new URL('/feed', request.url))
     }
 
     return response

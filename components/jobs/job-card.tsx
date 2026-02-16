@@ -20,7 +20,7 @@ interface JobCardProps {
 
 export function JobCard({ job, currentUserId }: JobCardProps) {
     const [isDeleting, setIsDeleting] = useState(false)
-    const isOwner = currentUserId === job.profile_id
+    const isOwner = currentUserId === job.author_id
 
     async function handleDelete() {
         if (!confirm("Remover esta vaga?")) return
@@ -34,6 +34,14 @@ export function JobCard({ job, currentUserId }: JobCardProps) {
         }
     }
 
+    const typeLabels: Record<string, string> = {
+        estagio: "Estágio",
+        emprego: "Emprego",
+        trainee: "Trainee",
+        freelance: "Freelance",
+        projeto_pesquisa: "Projeto de Pesquisa"
+    }
+
     return (
         <Card className="h-full flex flex-col relative group">
             <CardHeader className="pb-2">
@@ -44,9 +52,14 @@ export function JobCard({ job, currentUserId }: JobCardProps) {
                             <Building2 className="h-3 w-3" /> {job.company}
                         </CardDescription>
                     </div>
-                    <Badge variant={job.type === 'remoto' ? 'default' : 'secondary'}>
-                        {job.type.toUpperCase()}
-                    </Badge>
+                    <div className="flex flex-col gap-1 items-end">
+                        <Badge variant="outline">
+                            {typeLabels[job.type] || job.type}
+                        </Badge>
+                        <Badge variant={job.work_mode === 'remoto' ? 'default' : 'secondary'}>
+                            {job.work_mode?.toUpperCase() || "PRESENCIAL"}
+                        </Badge>
+                    </div>
                 </div>
                 {isOwner && (
                     <Button
@@ -66,7 +79,7 @@ export function JobCard({ job, currentUserId }: JobCardProps) {
                         <MapPin className="h-3 w-3" /> {job.location}
                     </span>
                     <span>•</span>
-                    <span>
+                    <span suppressHydrationWarning>
                         {formatDistanceToNow(new Date(job.created_at), { addSuffix: true, locale: ptBR })}
                     </span>
                 </div>
@@ -76,7 +89,7 @@ export function JobCard({ job, currentUserId }: JobCardProps) {
                 </p>
 
                 <div className="mt-auto pt-2">
-                    <Link href={job.application_url} target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Link href={job.link_url} target="_blank" rel="noopener noreferrer" className="w-full">
                         <Button className="w-full" variant="outline">
                             <Globe className="mr-2 h-4 w-4" />
                             Candidatar-se

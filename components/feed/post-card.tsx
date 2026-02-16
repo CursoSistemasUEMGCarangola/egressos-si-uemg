@@ -37,7 +37,7 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
 
     const authorName = post.profiles?.full_name || "Usuário Desconhecido"
     const initials = authorName.slice(0, 2).toUpperCase()
-    const isAuthor = currentUserId === post.profile_id
+    const isAuthor = currentUserId === post.author_id
 
     return (
         <Card className="mb-4">
@@ -48,7 +48,7 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                 </Avatar>
                 <div className="flex flex-col">
                     <span className="font-semibold text-sm">{authorName}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground" suppressHydrationWarning>
                         {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ptBR })}
                     </span>
                 </div>

@@ -14,7 +14,7 @@ export async function createPost(formData: PostFormData) {
     if (!result.success) return { error: 'Conteúdo inválido' }
 
     const { error } = await supabase.from('feed_posts').insert({
-        profile_id: user.id,
+        author_id: user.id,
         content: formData.content,
         is_pinned: false, // Default
     })

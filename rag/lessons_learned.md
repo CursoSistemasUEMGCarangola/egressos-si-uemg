@@ -31,6 +31,7 @@
 
 **Contexto:** Ao cadastrar usuário com email ou matrícula já existentes, o Supabase retorna erro SQL code `23505`.
 **Solução:** Capturar o erro retornado pelo `supabase.from().insert()`:
+
 ```ts
 if (error?.code === '23505') {
   return { error: 'Este registro (email/matrícula) já existe.' }
@@ -51,6 +52,24 @@ if (error?.code === '23505') {
 **Contexto:** `DELETE FROM tabela` não reseta os IDs autoincrementais (se houver) e pode ser lento.
 **Solução:** Uso de `TRUNCATE TABLE profiles RESTART IDENTITY CASCADE;`.
 **Prevenção:** Em scripts de "Clean Slate" para homologação, usar sempre TRUNCATE com CASCADE para garantir limpeza total das relações.
+
+### [2026-02-16] - [SQL/RLS] Idempotência em Scripts de Migração
+
+**Contexto:** Erro `policy "..." already exists` ao rodar scripts de correção de RLS mais de uma vez.
+**Solução:** Sempre usar `DROP POLICY IF EXISTS "NomeDaPolicy" ON tabela;` antes de `CREATE POLICY`.
+**Prevenção:** Scripts de manutenção de banco devem ser re-executáveis (idempotentes) para facilitar depuração.
+
+### [2026-02-16] - [DB/SCHEMA] Inconsistência de Nomes de Coluna (`profile_id` vs `author_id`)
+
+**Contexto:** O banco evoluiu para usar `author_id` em `feed_posts` e `opportunities`, mas o código legado e types ainda buscavam `profile_id`, causando queries vazias silenciosas.
+**Solução:** Auditoria completa no `schema.sql` vs código TypeScript. Atualizar interfaces e queries do Supabase para bater com a definição do banco.
+**Prevenção:** Ao renomear colunas no banco, varrer o código procurando pelo nome antigo imediatamente.
+
+### [2026-02-16] - [AUTH/RLS] Conteúdo Público vs RLS
+
+**Contexto:** Feed não aparecia na Landing Page (rota pública) apesar da query estar certa.
+**Solução:** As policies RLS estavam `TO authenticated`. Para páginas públicas, é necessário criar policies específicas `TO public` para `SELECT`.
+**Prevenção:** Se o dado deve aparecer na Home (deslogado), o RLS deve permitir explicitamente o role `public` ou `anon`.
 
 ---
 
@@ -90,6 +109,12 @@ if (error?.code === '23505') {
 **Contexto:** Mensagem de erro estática não some ou não pisca ao tentar logar novamente com senha errada.
 **Solução:** Usar `useToast` para erros efêmeros ou adicionar timestamp ao estado do erro para forçar re-render do React.
 
+### [2026-02-16] - [NEXTJS/REACT] Erro de Hidratação com Datas Relativas
+
+**Contexto:** `formatDistanceToNow` gera strings diferentes no Server ("há 4 min") e Client ("há 5 min"), quebrando a hidratação.
+**Solução:** Adicionar `suppressHydrationWarning` no elemento `<span>` que renderiza o tempo relativo.
+**Prevenção:** Qualquer dado dependente de `Date.now()` na renderização precisa de tratamento para evitar mismatch de hidratação.
+
 ---
 
 ## REGISTROS DE UX & LÓGICA DE NEGÓCIO
@@ -117,6 +142,12 @@ if (error?.code === '23505') {
 **Contexto:** Ao voltar um status de "Concluído" para "Em Análise", dados antigos (data de conclusão) persistiam.
 **Solução:** A Action de reversão deve limpar explicitamente os campos de metadados (`data_conclusao = null`).
 **Prevenção:** "Desfazer" exige limpar efeitos colaterais no banco, não apenas mudar a flag de status.
+
+### [2026-02-16] - [UX/FORMS] Tipagem de Vagas: Contrato vs Modelo
+
+**Contexto:** Confusão semântica entre "Tipo" (Estágio, Emprego) e "Modelo" (Presencial, Remoto) num único campo. O banco esperava um enum e o form enviava outro.
+**Solução:** Separar em duas colunas no banco (`type` e `work_mode`) e dois campos no formulário.
+**Prevenção:** Modelar o banco refletindo a realidade do negócio. Se são dois conceitos ortogonais, devem ser dois campos.
 
 ---
 
