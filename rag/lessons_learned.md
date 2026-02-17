@@ -180,3 +180,17 @@ if (error?.code === '23505') {
 **Contexto:** Admin redirecionado para `/feed` infinitamente. O usuário existia em `auth.users` (criado via dashboard) mas não tinha registro correspondente em `public.profiles` com a role `administrador`.
 **Solução:** Script SQL de correção inserindo o profile manualmente.
 **Prevenção:** Ao criar usuários manualmente no dashboard do Supabase, lembrar que triggers de criação de profile podem falhar ou não existir. Sempre verificar se o registro existe nas duas tabelas (`auth.users` e `public.profiles`).
+
+### [2026-02-16] - [SECURITY] Admin RBAC Implementation
+
+**Contexto:** Implementação do controle de acesso para o Painel Administrativo.
+**Solução:**
+
+1. **Middleware/Layout:** Verificação de `profile.role` no `layout.tsx` para redirecionar usuários não autorizados.
+2. **Server Actions:** Verificação de `role` e `author_id` dentro das Server Actions (`createJob`, `updateJob`, `deleteJob`) para garantir que usuários comuns só possam editar seus próprios registros.
+3. **UI:** Ocultação de links e botões na interface (`admin-sidebar.tsx`, `page.tsx`) baseada na role do usuário (passada via props ou fetch server-side).
+
+### [2026-02-16] - [DATABASE] SQL Migration Robustness
+
+**Contexto:** Adição de colunas e alteração de constraints em tabelas existentes (`opportunities`).
+**Solução:** Uso de scripts SQL idempotentes (`ADD COLUMN IF NOT EXISTS`, `DROP CONSTRAINT IF EXISTS`) para evitar erros em múltiplas execuções.
