@@ -1,3 +1,5 @@
+"use client"
+
 import { FeedList } from "@/components/feed/feed-list"
 import { Post } from "@/components/feed/types"
 import { Button } from "@/components/ui/button"
@@ -6,6 +8,14 @@ import { MentorCard } from "./mentor-card"
 import { JobCard } from "./job-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { ArrowRight } from "lucide-react"
+import { useState } from "react"
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog"
 
 interface FeedSectionProps {
     posts: Post[]
@@ -14,6 +24,8 @@ interface FeedSectionProps {
 }
 
 export function FeedSection({ posts, mentors, jobs }: FeedSectionProps) {
+    const [selectedPost, setSelectedPost] = useState<Post | null>(null)
+
     return (
         <section className="py-24 bg-white dark:bg-slate-900/50" id="comunidade">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,21 +105,16 @@ export function FeedSection({ posts, mentors, jobs }: FeedSectionProps) {
                             </Link>
                         </div>
 
-                        {/* Feed Layout - Using FeedList but constrained */}
+                        {/* Feed Layout */}
                         <div className="grid md:grid-cols-3 gap-6">
                             {posts.slice(0, 3).map((post) => (
-                                <div key={post.id} className="h-full">
-                                    {/* We need a simplified card for the landing page or reuse regular items. 
-                                         Since FeedList is a list, let's just display them properly.
-                                         Actually, the requirement says "Each message will be a card". 
-                                         FeedList renders a vertical list. We might want to render cards horizontally here.
-                                         But FeedList is complex. Let's make a mini-card wrapper or use the logic here.
-                                     */}
-                                    <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 h-full flex flex-col hover:shadow-md transition-shadow">
+                                <div
+                                    key={post.id}
+                                    className="h-full cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                                    onClick={() => setSelectedPost(post)}
+                                >
+                                    <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 h-full flex flex-col hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-3 mb-4">
-                                            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-600">
-                                                {post.profiles?.full_name?.charAt(0) || '?'}
-                                            </div>
                                             <div>
                                                 <p className="font-semibold text-sm">{post.profiles?.full_name}</p>
                                                 <p className="text-xs text-slate-500">
@@ -118,14 +125,34 @@ export function FeedSection({ posts, mentors, jobs }: FeedSectionProps) {
                                         <p className="text-slate-600 dark:text-slate-300 text-sm line-clamp-4 flex-grow">
                                             {post.content}
                                         </p>
+                                        <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-primary font-medium">
+                                            Ler mais
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-
                 </div>
             </div>
+
+            <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
+                <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <span>{selectedPost?.profiles?.full_name}</span>
+                            <span className="text-xs font-normal text-slate-500">
+                                {selectedPost && new Date(selectedPost.created_at).toLocaleDateString('pt-BR')}
+                            </span>
+                        </DialogTitle>
+                    </DialogHeader>
+                    <div className="mt-4 space-y-4">
+                        <div className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
+                            {selectedPost?.content}
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </section>
     )
 }

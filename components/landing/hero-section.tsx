@@ -39,12 +39,14 @@ export function HeroSection() {
                                     Cadastrar Meus Dados
                                 </Link>
                             </Button>
+                            {/*
                             <Button asChild variant="outline" className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white h-14 px-8 rounded-xl font-bold text-lg backdrop-blur-sm border-white/10 hover:border-white/20">
                                 <Link href="/jobs">
                                     <Briefcase className="mr-2 h-5 w-5" />
                                     Ver Oportunidades
                                 </Link>
                             </Button>
+                            */}
                         </div>
 
                         {/* Users Stack Voltar com isso quando tiver mais cadastros
