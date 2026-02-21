@@ -221,12 +221,12 @@ export default async function AdminDashboard() {
 
                     <div className="grid grid-cols-2 gap-4 mt-2">
                         <div>
-                            <p className="text-2xl font-bold text-slate-800 dark:text-white">{totalGraduates || 0}</p>
-                            <p className="text-xs text-gray-500">Total de Formados</p>
+                            <p className="text-2xl font-bold text-slate-800 dark:text-white">{egressoIds.size}</p>
+                            <p className="text-xs text-gray-500">Total de Egressos</p>
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-slate-800 dark:text-white">{continuingEducation || 0}</p>
-                            <p className="text-xs text-gray-500">Educação Continuada</p>
+                            <p className="text-2xl font-bold text-slate-800 dark:text-white">{alunoIds.size}</p>
+                            <p className="text-xs text-gray-500">Total de Alunos</p>
                         </div>
                     </div>
 

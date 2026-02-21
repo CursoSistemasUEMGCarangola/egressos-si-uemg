@@ -66,7 +66,7 @@ Este documento guia o desenvolvimento incremental do sistema, unindo os requisit
 
 ---
 
-## FASE 7: INTERNAL PORTAL REFINEMENT [EM PROGRESSO]
+## FASE 7: INTERNAL PORTAL REFINEMENT [CONCLUÍDO]
 
 **Objetivo:** Alinhar o portal interno com a nova identidade visual.
 
@@ -103,6 +103,26 @@ Este documento guia o desenvolvimento incremental do sistema, unindo os requisit
 
 ---
 
+## FASE 8: ADMIN DASHBOARD — INTELIGÊNCIA DE DADOS [CONCLUÍDO]
+
+**Objetivo:** Tornar o painel administrativo uma ferramenta real de tomada de decisão, com métricas precisas e análise do questionário acadêmico.
+
+- [x] **Métricas de Empregabilidade Segmentadas**:
+  - [x] Taxa de Empregabilidade de Egressos (role = `egresso`).
+  - [x] Taxa de Empregabilidade de Alunos (role = `aluno`).
+  - [x] Contagem absoluta por indicador.
+- [x] **Insights do Questionário Acadêmico (`profile_surveys`)**:
+  - [x] Taxa de cobertura (% de usuários que responderam).
+  - [x] Nota média de impacto na empregabilidade (1–5 ★).
+  - [x] Nuvem de tags de tecnologias em falta (tokenização de texto livre).
+  - [x] Top soft skills desejadas (barras).
+  - [x] Prioridade de metodologias de ensino (barras).
+  - [x] Áreas do curso mais valorizadas (barras).
+  - [x] Sugestões recentes (anonimizadas).
+- [x] **Contraste visual**: Barras do gráfico de evolução de formandos com cor sólida.
+
+---
+
 ## FASE 5: FINALIZAÇÃO (Pendente)
 
 **Objetivo:** Polimento para produção.
@@ -126,3 +146,6 @@ Este documento guia o desenvolvimento incremental do sistema, unindo os requisit
 - **[L16]**: Stale Session no Middleware após Signout.
 - **[L17]**: Filtragem por Role em Listagens Públicas.
 - **[L18]**: Evolução Incremental do Schema de Perfil.
+- **[L19]**: Métricas de Empregabilidade Segmentadas por Role.
+- **[L20]**: Agregação de Colunas ARRAY no Servidor (Server Component).
+- **[L21]**: Tokenização de Texto Livre para Tag Cloud de Insights.

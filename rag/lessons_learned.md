@@ -247,8 +247,27 @@ if (error?.code === '23505') {
 **Contexto:** Usuários reclamaram da dificuldade de escrever textos longos em inputs de altura fixa.
 **Solução:** Habilitar `resize-y` e definir `min-height` generoso.
 **Prevenção:** Em campos de texto livre (posts, descrições), nunca bloquear o redimensionamento vertical (`resize-none`) a menos que estritamente necessário pelo design.
+
 ### [2026-02-19] - [UX/ROUTING] Manutenção de Contexto em Sidebar Admin
 
 **Contexto:** Ao clicar em um link "Comunidade" na sidebar do Admin, o usuário era redirecionado para a rota `/feed` (layout do portal), perdendo a navegação administrativa.
 **Solução:** Criar uma rota dedicada `/admin/community` que reutiliza o componente de Feed (`FeedList`), mas renderizada dentro do layout `admin`.
 **Prevenção:** Se uma funcionalidade deve existir em dois contextos (Portal e Admin), não linkar para a mesma rota. Criar rotas distintas que importam o mesmo componente, preservando o layout de cada área.
+
+### [2026-02-20] - [ARCH/DASHBOARD] Métricas de Empregabilidade Segmentadas por Role
+
+**Contexto:** O dashboard exibia uma única "Taxa de Empregabilidade" calculada sobre os formados. Isso obscurecia a realidade: Alunos (ainda cursando) e Egressos (formados) têm contextos de carreira distintos e devem ser medidos separadamente.
+**Solução:** Buscar profiles separados por role (`.eq('role', 'egresso')` e `.eq('role', 'aluno')`), cruzar com `professional_history` onde `is_current = true`, e exibir dois indicadores distintos com seus denominadores corretos.
+**Prevenção:** Em dashboards acadêmicos, nunca agregar métricas de carreira entre roles diferentes. Uma taxa geral pode mascarar discrepâncias importantes entre grupos.
+
+### [2026-02-20] - [ARCH/DATA] Agregação de Colunas ARRAY no Servidor (Server Component)
+
+**Contexto:** Colunas `ARRAY` do Postgres (ex: `most_useful_areas`, `soft_skills_desired`, `methodology_priority`) chegam ao TypeScript como `string[] | null`. Para exibir frequência de itens no dashboard, é necessário agregar todas as respostas.
+**Solução:** Criar um helper `aggregateArrayField(arrays: (string[] | null)[]): [string, number][]` que conta ocorrências e retorna pares `[item, count]` ordenados. Executar no Server Component, passando apenas os dados finais para o JSX.
+**Prevenção:** Nunca trazer dados brutos para o cliente só para agrupar. Toda agregação de survey data deve ser feita server-side. O padrão `aggregateArrayField` é reutilizável para qualquer coluna ARRAY do schema.
+
+### [2026-02-20] - [ARCH/DATA] Tokenização de Texto Livre para Tag Cloud de Insights
+
+**Contexto:** O campo `missing_technologies` é texto livre (ex: "Faltou Docker, Kubernetes e mais práticas de DevOps"). Para exibir uma nuvem de tags com as tecnologias mais citadas, é necessário tokenizar e contar frequência de palavras.
+**Solução:** Fazer `.toLowerCase().split(/[\s,;./\-\n]+/)`, filtrar termos com menos de 3 caracteres e aplicar uma lista de stopwords (`de`, `do`, `da`, `e`, `com` etc.). O peso visual de cada tag (tamanho/opacidade) é proporcional a `count / maxCount`.
+**Prevenção:** Campos de texto livre nunca devem ser exibidos brutos em dashboards. Sempre pré-processar com tokenização + stopwords antes de calcular frequência. Definir stopwords explícitas no código — não depender de bibliotecas externas para esse caso simples.
