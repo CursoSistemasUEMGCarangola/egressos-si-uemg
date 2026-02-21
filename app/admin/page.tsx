@@ -73,19 +73,23 @@ export default async function AdminDashboard() {
     const employedGraduates = employedProfiles?.filter(p => egressoIds.has(p.profile_id)) || []
     const uniqueEmployedGraduates = employedEgressos.size
 
-    // 4. Salary Distribution
+    // 4. Salary Distribution - Only count unique profiles
     const egressoSalaryDistribution: Record<string, number> = {}
+    const processedEgressosStats = new Set()
     employedGraduates.forEach(p => {
-        if (p.salary_range) {
+        if (p.salary_range && !processedEgressosStats.has(p.profile_id)) {
             egressoSalaryDistribution[p.salary_range] = (egressoSalaryDistribution[p.salary_range] || 0) + 1
+            processedEgressosStats.add(p.profile_id)
         }
     })
 
     const employedStudents = employedProfiles?.filter(p => alunoIds.has(p.profile_id)) || []
     const alunoSalaryDistribution: Record<string, number> = {}
+    const processedAlunosStats = new Set()
     employedStudents.forEach(p => {
-        if (p.salary_range) {
+        if (p.salary_range && !processedAlunosStats.has(p.profile_id)) {
             alunoSalaryDistribution[p.salary_range] = (alunoSalaryDistribution[p.salary_range] || 0) + 1
+            processedAlunosStats.add(p.profile_id)
         }
     })
 
@@ -282,7 +286,7 @@ export default async function AdminDashboard() {
                                     .sort(([, a], [, b]) => b - a)
                                     .slice(0, 3)
                                     .map(([range, count]) => {
-                                        const percentage = Math.round((count / (employedEgressos.size || 1)) * 100)
+                                        const percentage = Math.round((count / (processedEgressosStats.size || 1)) * 100)
                                         return (
                                             <div key={range}>
                                                 <div className="flex justify-between text-[10px] mb-1">
@@ -312,7 +316,7 @@ export default async function AdminDashboard() {
                                     .sort(([, a], [, b]) => b - a)
                                     .slice(0, 3)
                                     .map(([range, count]) => {
-                                        const percentage = Math.round((count / (employedAlunos.size || 1)) * 100)
+                                        const percentage = Math.round((count / (processedAlunosStats.size || 1)) * 100)
                                         return (
                                             <div key={range}>
                                                 <div className="flex justify-between text-[10px] mb-1">
