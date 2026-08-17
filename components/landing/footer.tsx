@@ -19,6 +19,9 @@ export function Footer() {
                         <p className="text-slate-500 dark:text-slate-400 max-w-sm">
                             Plataforma oficial de acompanhamento de egressos do curso de Sistemas de Informação da Universidade do Estado de Minas Gerais - Unidade Carangola.
                         </p>
+                        <p className="text-slate-500 dark:text-slate-400 max-w-sm text-xs border-l-2 border-primary pl-3 py-1">
+                            O projeto foi aprovado no Edital 01/2026 do PROGRAMA DE APOIO A PROJETOS DE EXTENSÃO DA UEMG - PAEx/UEMG. O projeto está registrado no sistema SIGA sob o número 27831.
+                        </p>
                         <div className="flex space-x-4">
                             <Link href="https://www.instagram.com/siuemg" className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all">
                                 <Instagram size={20} />
@@ -36,6 +39,9 @@ export function Footer() {
                             <li><Link href="https://www.uemg.br/" target="_blank" className="hover:text-primary transition-colors">Portal da UEMG</Link></li>
                             <li><Link href="https://www.uemg.br/carangola" target="_blank" className="hover:text-primary transition-colors">Unidade Carangola</Link></li>
                             <li><Link href="https://www.uemg.br/component/phocadownload/category/2523-unidade-carangola?download=13423:ppc-sistema-de-informacao-carangola-2023" target="_blank" className="hover:text-primary transition-colors">PPC do Curso</Link></li>
+                            <li className="pt-2"><Link href="/sobre" className="hover:text-primary transition-colors font-medium">Sobre o Projeto</Link></li>
+                            <li><Link href="/termos" className="hover:text-primary transition-colors font-medium">Termos de Uso</Link></li>
+                            <li><Link href="/privacidade" className="hover:text-primary transition-colors font-medium">Políticas de Privacidade</Link></li>
                         </ul>
                     </div>
 

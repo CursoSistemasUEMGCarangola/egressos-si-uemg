@@ -13,7 +13,10 @@ export async function middleware(request: NextRequest) {
         path.startsWith('/signup') ||
         path.startsWith('/auth') ||
         path.startsWith('/recover') ||
-        path.startsWith('/reset')
+        path.startsWith('/reset') ||
+        path.startsWith('/sobre') ||
+        path.startsWith('/termos') ||
+        path.startsWith('/privacidade')
 
     // Check profile existence if user is logged in
     let hasProfile = false

@@ -72,8 +72,16 @@ export default async function AdminLayout({
                 {/* Main Content Area */}
                 <main className="flex-1 overflow-y-auto p-8 relative">
                     {children}
-                    <footer className="mt-8 p-6 text-center text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-slate-800">
-                        &copy; {new Date().getFullYear()} Unidade Carangola - UEMG | Sistemas de Informação.
+                    <footer className="mt-8 p-6 text-center text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-slate-800 flex flex-col gap-2">
+                        <p>&copy; {new Date().getFullYear()} Unidade Carangola - UEMG | Sistemas de Informação.</p>
+                        <div className="flex justify-center gap-4 mt-2">
+                            <Link href="/sobre" className="hover:text-primary transition-colors">Sobre</Link>
+                            <Link href="/termos" className="hover:text-primary transition-colors">Termos</Link>
+                            <Link href="/privacidade" className="hover:text-primary transition-colors">Privacidade</Link>
+                        </div>
+                        <p className="text-[10px] mt-2 opacity-70">
+                            Aprovado no Edital 01/2026 PAEx/UEMG. SIGA: 27831.
+                        </p>
                     </footer>
                 </main>
             </div>
