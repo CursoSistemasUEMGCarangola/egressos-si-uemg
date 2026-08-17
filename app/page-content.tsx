@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Navbar } from "@/components/landing/navbar"
 import { HeroSection } from "@/components/landing/hero-section"
 import { BenefitsSection } from "@/components/landing/benefits-section"
@@ -24,6 +25,21 @@ export function PageContent({ mentors, jobs, isElectionMode }: PageContentProps)
               <FeedSection mentors={mentors} jobs={jobs} hideInstagramFeed={true} />
             </div>
         </main>
+        <footer className="w-full bg-slate-200 dark:bg-slate-950/50 border-t border-slate-300 dark:border-slate-800 p-6 text-center text-xs text-slate-600 dark:text-slate-400 mt-auto">
+            <div className="flex flex-col gap-2 items-center justify-center max-w-4xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <Link href="/sobre" className="hover:text-primary transition-colors font-medium">Sobre o Projeto</Link>
+                    <Link href="/termos" className="hover:text-primary transition-colors font-medium">Termos de Uso</Link>
+                    <Link href="/privacidade" className="hover:text-primary transition-colors font-medium">Políticas de Privacidade</Link>
+                </div>
+                <p className="mt-2 text-[10px] opacity-70">
+                    O projeto foi aprovado no Edital 01/2026 do PROGRAMA DE APOIO A PROJETOS DE EXTENSÃO DA UEMG - PAEx/UEMG. O projeto está registrado no sistema SIGA sob o número 27831.
+                </p>
+                <p className="mt-2">
+                    &copy; {new Date().getFullYear()} Egressos Sistemas de Informação
+                </p>
+            </div>
+        </footer>
       </div>
     )
   }
