@@ -1,3 +1,5 @@
+import { BackButton } from "@/components/ui/back-button"
+
 export const metadata = {
     title: 'Políticas de Privacidade | Egressos SI UEMG',
     description: 'Políticas de Privacidade e Tratamento de Dados da plataforma de Egressos de Sistemas de Informação da UEMG Carangola.',
@@ -8,6 +10,7 @@ export default function PrivacidadePage() {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
                 <div className="p-8 sm:p-12">
+                    <BackButton />
                     <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-6">Políticas de Privacidade</h1>
                     
                     <div className="space-y-6 text-slate-600 dark:text-slate-300">
